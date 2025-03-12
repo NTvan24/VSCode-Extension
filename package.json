@@ -1,0 +1,63 @@
+{
+  "name": "ai-assistant",
+  "displayName": "AI Assistant",
+  "description": "Trợ lý AI hỗ trợ sửa lỗi và đánh giá code",
+  "version": "0.0.1",
+  "engines": {
+    "vscode": "^1.97.0"
+  },
+  "categories": [
+    "Other"
+  ],
+  "main": "./out/extension.js",
+  "contributes": {
+    "viewsContainers": {
+      "activitybar": [
+        {
+          "id": "aiAssistant",
+          "title": "AI Assistant",
+          "icon": "./media/icon.png"
+        }
+      ]
+    },
+    "views": {
+      "aiAssistant": [
+        {
+          "type": "webview",
+          "id": "aiAssistantView",
+          "name": "AI Chat",
+          "icon": "./media/icon.png"
+        }
+      ]
+    },
+    "commands": [
+      {
+        "command": "ai-assistant.start",
+        "title": "AI Start"
+      }
+    ]
+  },
+  "scripts": {
+    "vscode:prepublish": "npm run compile",
+    "compile": "tsc -p ./",
+    "watch": "tsc -watch -p ./",
+    "pretest": "npm run compile && npm run lint",
+    "lint": "eslint src",
+    "test": "vscode-test"
+  },
+  "devDependencies": {
+    "@types/mocha": "^10.0.10",
+    "@types/node": "20.x",
+    "@types/vscode": "^1.97.0",
+    "@typescript-eslint/eslint-plugin": "^8.22.0",
+    "@typescript-eslint/parser": "^8.22.0",
+    "@vscode/test-cli": "^0.0.10",
+    "@vscode/test-electron": "^2.4.1",
+    "eslint": "^9.19.0",
+    "typescript": "^5.7.3"
+  },
+  "dependencies": {
+    "axios": "^1.8.1",
+    "openai": "^4.86.2"
+  }
+}
