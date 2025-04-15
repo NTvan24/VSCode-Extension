@@ -1,0 +1,2 @@
+uvicorn server:app --host 127.0.0.1 --port 8000
+Câu lệnh này để cài file server.py làm file server của FastAPI

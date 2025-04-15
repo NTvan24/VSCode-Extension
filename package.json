@@ -31,10 +31,14 @@
       ]
     },
     "commands": [
-      {
-        "command": "ai-assistant.start",
-        "title": "AI Start"
-      }
+        {
+            "command": "extension.askRAG",
+            "title": "Ask RAG Agent"
+        },
+        {
+            "command": "ai-assistant.start",
+            "title": "AI Start"
+        }
     ]
   },
   "scripts": {

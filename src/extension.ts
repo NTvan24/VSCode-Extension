@@ -4,6 +4,7 @@ import { askAzureGPT } from "./chatbotService";
 
 export function activate(context: vscode.ExtensionContext) {
     //Đăng kí SideBar
+    
     const aiViewProvider = new AiViewProvider(
         
         context
@@ -11,7 +12,20 @@ export function activate(context: vscode.ExtensionContext) {
     context.subscriptions.push(
         vscode.window.registerWebviewViewProvider("aiAssistantView",aiViewProvider)
     );
+    let RAGdisposable = vscode.commands.registerCommand('extension.askRAG', async () => {
+        const question = await vscode.window.showInputBox({ prompt: "Nhập câu hỏi của bạn" });
+        if (question) {
+            const response = await fetch('http://127.0.0.1:8000/query', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ question })
+            });
+            const data = await response.json() as { answer: string };
+            vscode.window.showInformationMessage(`RAG Agent trả lời: ${data.answer}`);
+        }
+    });
 
+    context.subscriptions.push(RAGdisposable);
     //Đăng kí Command
     let disposable = vscode.commands.registerCommand("ai-assistant.start", async () => {
         const panel = vscode.window.createWebviewPanel(
@@ -25,10 +39,14 @@ export function activate(context: vscode.ExtensionContext) {
 
         panel.webview.onDidReceiveMessage(async (message) => {
             if (message.command === "ask") {
-                const answer = await askAzureGPT(message.text);
+                
+                const answer = await askAzureGPT(message.text, false);
                 panel.webview.postMessage({ text: answer });
             }
+            
         });
+        
+
     });
 
     context.subscriptions.push(disposable);
